@@ -47,7 +47,7 @@ namespace Seq.App.VictorOps
 
     public enum AlertSource
     {
-        HostedPortal,
-        Manual
+        Unknown,
+        Seq,
     }
 }

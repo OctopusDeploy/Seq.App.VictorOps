@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
@@ -19,18 +21,22 @@ namespace Seq.App.VictorOps
 
             StringBuilder sb = new StringBuilder(evt.Data.RenderedMessage);
 
-            sb.AppendLine("Properties:");
-            foreach (var property in evt.Data.Properties)
+            var properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString());
+
+            //var customer = IdentifierParser.GetCustomerIdentifier(evt.Data);
+            //var environment = IdentifierParser.GetEnvironmentIdentifier(evt.Data);
+            //var region = IdentifierParser.GetRegionIdentifier(evt.Data);
+
+            var postTask = service.PostAlert(new PostAlertOptions
             {
-                sb.AppendLine($"{property.Key} = {property.Value}");
-            }
-
-            var customer = IdentifierParser.GetCustomerIdentifier(evt.Data);
-            var environment = IdentifierParser.GetEnvironmentIdentifier(evt.Data);
-            var region = IdentifierParser.GetRegionIdentifier(evt.Data);
-
-            var postTask = service.PostAlert(AlertSource.HostedPortal, type, Title, sb.ToString(), customer,
-                environment, region);
+                Message = evt.Data.RenderedMessage,
+                RestApiKey = RestApiKey,
+                Title = Title,
+                RoutingKey = RoutingKey,
+                Type = type,
+                Id = evt.Id,
+                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
+            });
             
             postTask.Wait();
         }
@@ -46,7 +52,24 @@ namespace Seq.App.VictorOps
         [SeqAppSetting(DisplayName = "Victor Ops URL", IsOptional = false, InputType = SettingInputType.Text)]
         public string Url { get; set; }
 
-        public string Title {get;set;}
+        [SeqAppSetting(DisplayName = "Incident Title", IsOptional = false, InputType = SettingInputType.Text)]
+        public string Title { get; set; }
 
+        [SeqAppSetting(DisplayName = "REST API Key", IsOptional = false, InputType = SettingInputType.Password)]
+        public string RestApiKey { get; set; }
+
+        [SeqAppSetting(DisplayName = "Routing Key", IsOptional = true, InputType = SettingInputType.Text)]
+        public string RoutingKey { get; set; }
+    }
+
+    public class PostAlertOptions
+    {
+        public AlertType Type { get; set; }
+        public string Title { get; set; }
+        public string RestApiKey { get; set; }
+        public string RoutingKey { get; set; }
+        public string Message { get; set; }
+        public string Id { get; set; }
+        public IDictionary<string, string> Properties { get; set; }
     }
 }
