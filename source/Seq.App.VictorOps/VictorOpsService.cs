@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Seq.App.VictorOps.Models;
 using Serilog;
 using Serilog.Core;
 
@@ -23,16 +24,24 @@ namespace Seq.App.VictorOps
 
         public async Task PostAlert(PostAlertOptions options)
         {
-            UriBuilder uriBuilder = new UriBuilder(_uri);
-            StringBuilder sb = new StringBuilder(options.RestApiKey).Append("/");
-            if (!string.IsNullOrWhiteSpace(options.RoutingKey))
+            var uri = GetVictorOpsUri(options);
+
+            var payloadJson = GetPayloadJson(options);
+
+            _logger.Verbose($"Sending VictorOps alert: {payloadJson} to {uri}");
+
+            if (options.TestMode)
             {
-                sb.Append(options.RoutingKey).Append("/");
+                _logger.Information($"Test mode enabled. Not sending incident.");
             }
+            else
+            {
+                await SendIncident(uri, payloadJson);
+            }
+        }
 
-            uriBuilder.Path += sb.ToString();
-            var uri = uriBuilder.ToString();
-
+        private static string GetPayloadJson(PostAlertOptions options)
+        {
             var payload = new VictorOpsAlert()
             {
                 Tool = AlertSource.Seq,
@@ -42,19 +51,36 @@ namespace Seq.App.VictorOps
                 Id = options.Id
             };
 
-            var jo = (JObject)JToken.FromObject(payload);
+            var jo = (JObject) JToken.FromObject(payload);
             foreach (var property in options.Properties)
             {
                 jo.Add(property.Key, property.Value);
             }
-            
+
             var payloadJson = JsonConvert.SerializeObject(jo);
+            return payloadJson;
+        }
 
-            _logger.Verbose($"Sending VictorOps alert: {payloadJson} to {uri}");
+        private string GetVictorOpsUri(PostAlertOptions options)
+        {
+            UriBuilder uriBuilder = new UriBuilder(_uri);
+            StringBuilder sb = new StringBuilder(options.RestApiKey).Append("/");
+            if (!string.IsNullOrWhiteSpace(options.RoutingKey))
+            {
+                sb.Append(options.RoutingKey).Append("/");
+            }
 
+            uriBuilder.Path += sb.ToString();
+            var uri = uriBuilder.ToString();
+            return uri;
+        }
+
+        private async Task SendIncident(string uri, string payloadJson)
+        {
             using (var httpClient = new HttpClient())
             {
-                var response = await httpClient.PostAsync(uri, new StringContent(payloadJson, Encoding.UTF8, "application/json"));
+                var response =
+                    await httpClient.PostAsync(uri, new StringContent(payloadJson, Encoding.UTF8, "application/json"));
                 if (response.IsSuccessStatusCode)
                 {
                     _logger.Information("Successfully sent request to VictorOps");

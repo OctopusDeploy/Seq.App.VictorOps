@@ -4,18 +4,6 @@ using Newtonsoft.Json.Converters;
 namespace Seq.App.VictorOps
 {
 
-    public class VictorOpsInstanceAlert : VictorOpsAlert
-    {
-        [JsonProperty("CustomerId")]
-        public string CustomerId { get; set; }
-
-        [JsonProperty("Environment")]
-        public string Environment { get; set; }
-
-        [JsonProperty("Region")]
-        public string Region { get; set; }
-    }
-
     public class VictorOpsAlert
     {
         [JsonProperty("message_type")]

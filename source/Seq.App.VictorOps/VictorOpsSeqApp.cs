@@ -1,10 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
 using Newtonsoft.Json.Converters;
+using Seq.App.VictorOps.Models;
 
 namespace Seq.App.VictorOps
 {
@@ -28,6 +28,7 @@ namespace Seq.App.VictorOps
                 RoutingKey = RoutingKey,
                 Type = type,
                 Id = evt.Id,
+                TestMode = TestMode,
                 Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString())
             });
             
@@ -53,16 +54,9 @@ namespace Seq.App.VictorOps
 
         [SeqAppSetting(DisplayName = "Routing Key", IsOptional = true, InputType = SettingInputType.Text)]
         public string RoutingKey { get; set; }
-    }
 
-    public class PostAlertOptions
-    {
-        public AlertType Type { get; set; }
-        public string Title { get; set; }
-        public string RestApiKey { get; set; }
-        public string RoutingKey { get; set; }
-        public string Message { get; set; }
-        public string Id { get; set; }
-        public IDictionary<string, string> Properties { get; set; }
+        [SeqAppSetting(DisplayName = "Test Mode", IsOptional = true, InputType = SettingInputType.Checkbox, HelpText = "Incidents will not be raised in test mode")]
+        public bool TestMode { get; set; }
+
     }
 }

@@ -1,20 +1,24 @@
-mkdir artifacts
-mkdir publish
+@ECHO OFF
+REM see http://joshua.poehls.me/powershell-batch-file-wrapper/
 
-pushd artifacts
-del *.* /F /Q
-popd
+SET SCRIPTNAME=%~d0%~p0%~n0.ps1
+SET ARGS=%*
+IF [%1] NEQ [] GOTO ESCAPE_ARGS
 
-pushd source\Seq.App.VictorOps
-dotnet build
-dotnet publish -o ..\..\publish
-popd
+:POWERSHELL
+PowerShell.exe -NoProfile -NonInteractive -NoLogo -ExecutionPolicy Unrestricted -Command "& { $ErrorActionPreference = 'Stop'; & '%SCRIPTNAME%' @args; EXIT $LASTEXITCODE }" %ARGS%
+EXIT /B %ERRORLEVEL%
 
-pushd publish
-c:\tools\octo.exe pack --id Seq.App.VictorOps --version %1 --outfolder ..\artifacts
-popd
+:ESCAPE_ARGS
+SET ARGS=%ARGS:"=\"%
+SET ARGS=%ARGS:`=``%
+SET ARGS=%ARGS:'=`'%
+SET ARGS=%ARGS:$=`$%
+SET ARGS=%ARGS:{=`}%
+SET ARGS=%ARGS:}=`}%
+SET ARGS=%ARGS:(=`(%
+SET ARGS=%ARGS:)=`)%
+SET ARGS=%ARGS:,=`,%
+SET ARGS=%ARGS:^%=%
 
-pushd artifacts
-copy *.* c:\git\LocalPackages
-popd
- 
+GOTO POWERSHELL
