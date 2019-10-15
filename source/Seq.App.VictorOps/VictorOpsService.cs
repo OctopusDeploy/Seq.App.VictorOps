@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Serilog.Core;
 
@@ -22,7 +23,6 @@ namespace Seq.App.VictorOps
 
         public async Task PostAlert(PostAlertOptions options)
         {
-            string routeKey = string.IsNullOrWhiteSpace(options.RoutingKey) ? string.Empty : options.RoutingKey;
             UriBuilder uriBuilder = new UriBuilder(_uri);
             StringBuilder sb = new StringBuilder(options.RestApiKey).Append("/");
             if (!string.IsNullOrWhiteSpace(options.RoutingKey))
@@ -42,7 +42,13 @@ namespace Seq.App.VictorOps
                 Id = options.Id
             };
 
-            var payloadJson = JsonConvert.SerializeObject(payload);
+            var jo = (JObject)JToken.FromObject(payload);
+            foreach (var property in options.Properties)
+            {
+                jo.Add(property.Key, property.Value);
+            }
+            
+            var payloadJson = JsonConvert.SerializeObject(jo);
 
             _logger.Verbose($"Sending VictorOps alert: {payloadJson} to {uri}");
 

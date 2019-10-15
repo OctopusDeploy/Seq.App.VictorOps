@@ -11,23 +11,16 @@ namespace Seq.App.VictorOps
     [SeqApp("VictorOps")]
     public class VictorOpsSeqApp : SeqApp, ISubscribeTo<LogEventData>
     {
-        private VictorOpsService service;
+        private VictorOpsService _service;
 
         public void On(Event<LogEventData> evt)
         {
             EnsureService();
 
             AlertType type = VictorOpsAlertTypeMapper.Map(evt.Data.Level);
-
             StringBuilder sb = new StringBuilder(evt.Data.RenderedMessage);
 
-            var properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString());
-
-            //var customer = IdentifierParser.GetCustomerIdentifier(evt.Data);
-            //var environment = IdentifierParser.GetEnvironmentIdentifier(evt.Data);
-            //var region = IdentifierParser.GetRegionIdentifier(evt.Data);
-
-            var postTask = service.PostAlert(new PostAlertOptions
+            var postTask = _service.PostAlert(new PostAlertOptions
             {
                 Message = evt.Data.RenderedMessage,
                 RestApiKey = RestApiKey,
@@ -35,7 +28,7 @@ namespace Seq.App.VictorOps
                 RoutingKey = RoutingKey,
                 Type = type,
                 Id = evt.Id,
-                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value.ToString())
+                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString())
             });
             
             postTask.Wait();
@@ -43,9 +36,9 @@ namespace Seq.App.VictorOps
 
         private void EnsureService()
         {
-            if (service == null)
+            if (_service == null)
             {
-                service = new VictorOpsService(Url, Log);
+                _service = new VictorOpsService(Url, Log);
             }
         }
 
