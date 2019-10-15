@@ -36,7 +36,7 @@ namespace Seq.App.VictorOps
             }
             else
             {
-                await SendIncident(uri, payloadJson);
+                await CreateIncident(uri, payloadJson);
             }
         }
 
