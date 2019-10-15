@@ -89,7 +89,7 @@ namespace Seq.App.VictorOps
                 {
                     var log = _logger.ForContext("statusCode", response.StatusCode);
                     var responseMessage = await response.Content.ReadAsStringAsync();
-                    log.Error($"Failed to send request to VictorOps: {responseMessage}");
+                    log.Error("Failed to send request to VictorOps: {ResponseMessage}", responseMessage);
                 }
             }
         }
