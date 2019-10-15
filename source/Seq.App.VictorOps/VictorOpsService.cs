@@ -28,7 +28,7 @@ namespace Seq.App.VictorOps
 
             var payloadJson = GetPayloadJson(options);
 
-            _logger.Verbose($"Sending VictorOps alert: {payloadJson} to {uri}");
+            _logger.Verbose("Sending VictorOps alert: {PayloadJson} to base Uri: {Uri}", payloadJson, _uri);
 
             if (options.TestMode)
             {
