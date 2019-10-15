@@ -28,7 +28,7 @@ Task("GetVersion")
         if(BuildSystem.IsRunningOnTeamCity)
             BuildSystem.TeamCity.SetBuildNumber(nugetVersion);
 
-        Information($"Building Seq.App.VictorOps v{0}", nugetVersion);
+        Information($"Building Seq.App.VictorOps v{nugetVersion}");
         Information("Informational Version {0}", gitVersionInfo.InformationalVersion);
         Verbose("GitVersion:\n{0}", gitVersionInfo);
     });
