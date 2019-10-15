@@ -43,7 +43,7 @@ namespace Seq.App.VictorOps
             }
         }
 
-        [SeqAppSetting(DisplayName = "Victor Ops URL", IsOptional = false, InputType = SettingInputType.Text)]
+        [SeqAppSetting(DisplayName = "Victor Ops URL", IsOptional = false, InputType = SettingInputType.Text, HelpText = "The REST URL can be found in your VictorOps account under Integrations > REST. Don't include the REST API key (the part before the routing key) in this URL to avoid it being logged.")]
         public string Url { get; set; }
 
         [SeqAppSetting(DisplayName = "Incident Title", IsOptional = false, InputType = SettingInputType.Text)]

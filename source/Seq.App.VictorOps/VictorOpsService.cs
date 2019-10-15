@@ -13,12 +13,12 @@ namespace Seq.App.VictorOps
 {
     public class VictorOpsService
     {
-        private readonly Uri _uri;
+        private readonly Uri _baseUri;
         private readonly ILogger _logger;
 
-        public VictorOpsService(string uri, ILogger logger)
+        public VictorOpsService(string baseUri, ILogger logger)
         {
-            _uri = new Uri(uri);
+            _baseUri = new Uri(baseUri);
             _logger = logger;
         }
 
@@ -28,7 +28,7 @@ namespace Seq.App.VictorOps
 
             var payloadJson = GetPayloadJson(options);
 
-            _logger.Verbose("Sending VictorOps alert: {PayloadJson} to base Uri: {Uri}", payloadJson, _uri);
+            _logger.Verbose("Sending VictorOps alert: {PayloadJson} to base Uri: {Uri}", payloadJson, _baseUri);
 
             if (options.TestMode)
             {
@@ -63,7 +63,7 @@ namespace Seq.App.VictorOps
 
         private string GetVictorOpsUri(PostAlertOptions options)
         {
-            UriBuilder uriBuilder = new UriBuilder(_uri);
+            UriBuilder uriBuilder = new UriBuilder(_baseUri);
             StringBuilder sb = new StringBuilder(options.RestApiKey).Append("/");
             if (!string.IsNullOrWhiteSpace(options.RoutingKey))
             {
