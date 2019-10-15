@@ -75,7 +75,7 @@ namespace Seq.App.VictorOps
             return uri;
         }
 
-        private async Task SendIncident(string uri, string payloadJson)
+        private async Task CreateIncident(string uri, string payloadJson)
         {
             using (var httpClient = new HttpClient())
             {
