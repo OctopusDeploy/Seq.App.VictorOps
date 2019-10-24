@@ -67,7 +67,7 @@ namespace Seq.App.VictorOps
             StringBuilder sb = new StringBuilder(options.RestApiKey).Append("/");
             if (!string.IsNullOrWhiteSpace(options.RoutingKey))
             {
-                sb.Append(options.RoutingKey).Append("/");
+                sb.Append(options.RoutingKey);
             }
 
             uriBuilder.Path += sb.ToString();
