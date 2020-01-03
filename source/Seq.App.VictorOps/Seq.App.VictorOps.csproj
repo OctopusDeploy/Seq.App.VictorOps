@@ -17,5 +17,9 @@
     <PackageReference Include="octostache" Version="2.7.0" />
     <PackageReference Include="Seq.Apps" Version="5.1.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="app.config" Pack="true">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
 </Project>

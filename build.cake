@@ -71,7 +71,9 @@ Task("Pack")
             {
                 Configuration = configuration,
                 OutputDirectory = artifactsDir,
+                NoBuild = true,
                 ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion}")
+                // ArgumentCustomization = args => args.Append($"/p:Version={nugetVersion} /p:NuspecFile=Seq.App.VictorOps.nuspec /p:NuspecProperties=\"version={nugetVersion}\"")
             }
         );
     });

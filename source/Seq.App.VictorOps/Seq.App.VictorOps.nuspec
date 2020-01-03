@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd" xmlns:octopus="http://octopus.org">
+    <metadata>
+        <id>Seq.App.VictorOps</id>
+        <version>$version$</version>
+        <authors>Octopus Deploy</authors>
+        <description>Sends messages received to the VictorOps REST endpoint</description>
+        <releaseNotes></releaseNotes>
+        <language>en-US</language>
+        <iconUrl>http://i.octopusdeploy.com/resources/Avatar3-32x32.png</iconUrl>
+        <projectUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps</projectUrl>
+        <licenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE.txt</licenseUrl>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="12.0.3" />
+            <dependency id="Octostache" version="2.7.0" />
+            <dependency id="Seq.Apps" version="5.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Release\netstandard2.0\Seq.App.VictorOps.dll" target="lib\netstandard2.0" />
+        <file src="bin\Release\netstandard2.0\Seq.App.VictorOps.dll.config" target="lib\netstandard2.0" />
+        <file src="bin\Release\netstandard2.0\Seq.App.VictorOps.pdb" target="lib\netstandard2.0" />
+        <file
+    </files>
+</package>        
+        
