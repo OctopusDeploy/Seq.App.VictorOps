@@ -7,7 +7,7 @@
     <Copyright>Octopus Deploy Pty Ltd</Copyright>
     <PackageIconUrl>http://i.octopusdeploy.com/resources/Avatar3-32x32.png</PackageIconUrl>
     <PackageDescription>Sends messages received to the VictorOps REST endpoint</PackageDescription>
-    <PackageLicenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE.txt</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
