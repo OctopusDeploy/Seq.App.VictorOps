@@ -7,11 +7,13 @@
     <Copyright>Octopus Deploy Pty Ltd</Copyright>
     <PackageIconUrl>http://i.octopusdeploy.com/resources/Avatar3-32x32.png</PackageIconUrl>
     <PackageDescription>Sends messages received to the VictorOps REST endpoint</PackageDescription>
-    <PackageLicenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NewtonSoft.Json" Version="9.0.1" />
+    <PackageReference Include="NewtonSoft.Json" Version="12.0.3" />
     <PackageReference Include="octostache" Version="2.7.0" />
     <PackageReference Include="Seq.Apps" Version="5.1.0" />
   </ItemGroup>
