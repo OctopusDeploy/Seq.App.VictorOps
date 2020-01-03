@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Seq.Apps.LogEvents;
+﻿using Seq.Apps.LogEvents;
 
 namespace Seq.App.VictorOps
 {

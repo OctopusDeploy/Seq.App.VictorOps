@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
-using Newtonsoft.Json.Converters;
 using Seq.App.VictorOps.Models;
 
 namespace Seq.App.VictorOps
@@ -17,19 +14,20 @@ namespace Seq.App.VictorOps
         {
             EnsureService();
 
+            var properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString());
+            
             AlertType type = VictorOpsAlertTypeMapper.Map(evt.Data.Level);
-            StringBuilder sb = new StringBuilder(evt.Data.RenderedMessage);
 
             var postTask = _service.PostAlert(new PostAlertOptions
             {
-                Message = evt.Data.RenderedMessage,
+                Message = VariableRenderer.Render(evt.Data.RenderedMessage, properties),
                 RestApiKey = RestApiKey,
-                Title = Title,
-                RoutingKey = RoutingKey,
+                Title = VariableRenderer.Render(Title, properties),
+                RoutingKey = VariableRenderer.Render(RoutingKey, properties),
                 Type = type,
                 Id = evt.Id,
                 TestMode = TestMode,
-                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString())
+                Properties = properties
             });
             
             postTask.Wait();
