@@ -85,6 +85,14 @@ Task("PushPackage")
             Source = "https://f.feedz.io/octopus-deploy/dependencies/nuget",
             ApiKey = EnvironmentVariable("FeedzIoApiKey")
         });
+
+        if (gitVersionInfo.PreReleaseTag == "")
+        {
+            NuGetPush($"{artifactsDir}/Seq.App.VictorOps.{nugetVersion}.nupkg", new NuGetPushSettings {
+                Source = "https://www.nuget.org/api/v2/package",
+                ApiKey = EnvironmentVariable("NuGetApiKey")
+            });
+        }
     });
 
 Task("CopyToLocalPackages")
