@@ -8,6 +8,8 @@
     <PackageIconUrl>http://i.octopusdeploy.com/resources/Avatar3-32x32.png</PackageIconUrl>
     <PackageDescription>Sends messages received to the VictorOps REST endpoint</PackageDescription>
     <PackageLicenseUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/OctopusDeploy/Seq.App.VictorOps</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>seq-app seq events victorops</PackageTags>
   </PropertyGroup>
 

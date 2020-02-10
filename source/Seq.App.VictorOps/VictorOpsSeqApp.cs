@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Seq.Apps;
 using Seq.Apps.LogEvents;
@@ -18,8 +19,6 @@ namespace Seq.App.VictorOps
             EnsureService();
 
             AlertType type = VictorOpsAlertTypeMapper.Map(evt.Data.Level);
-            StringBuilder sb = new StringBuilder(evt.Data.RenderedMessage);
-
             var postTask = _service.PostAlert(new PostAlertOptions
             {
                 Message = evt.Data.RenderedMessage,
@@ -29,7 +28,8 @@ namespace Seq.App.VictorOps
                 Type = type,
                 Id = evt.Id,
                 TestMode = TestMode,
-                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString())
+                Properties = evt.Data.Properties.ToDictionary(x => x.Key, x => x.Value?.ToString()),
+                Exception = evt.Data.Exception ?? string.Empty
             });
             
             postTask.Wait();

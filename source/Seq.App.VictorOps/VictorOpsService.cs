@@ -40,7 +40,7 @@ namespace Seq.App.VictorOps
             }
         }
 
-        private static string GetPayloadJson(PostAlertOptions options)
+        private string GetPayloadJson(PostAlertOptions options)
         {
             var payload = new VictorOpsAlert()
             {
@@ -50,7 +50,8 @@ namespace Seq.App.VictorOps
                 Message = options.Message,
                 Id = options.Id
             };
-
+            SetException(payload, options);
+            
             var jo = (JObject) JToken.FromObject(payload);
             foreach (var property in options.Properties)
             {
@@ -59,6 +60,14 @@ namespace Seq.App.VictorOps
 
             var payloadJson = JsonConvert.SerializeObject(jo);
             return payloadJson;
+        }
+
+        private void SetException(VictorOpsAlert payload, PostAlertOptions options)
+        {
+            if (!string.IsNullOrEmpty(options.Exception))
+            {
+                payload.Exception = options.Exception.Substring(0, 1124); // https://help.victorops.com/knowledge-base/rest-endpoint-integration-guide/#note-vo_annotate-s-note
+            }
         }
 
         private string GetVictorOpsUri(PostAlertOptions options)

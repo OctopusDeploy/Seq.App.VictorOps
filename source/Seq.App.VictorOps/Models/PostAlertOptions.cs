@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Seq.App.VictorOps.Models
 {
@@ -12,5 +13,6 @@ namespace Seq.App.VictorOps.Models
         public string Id { get; set; }
         public bool TestMode { get; set; }
         public IDictionary<string, string> Properties { get; set; }
+        public string Exception { get; set; }
     }
 }
