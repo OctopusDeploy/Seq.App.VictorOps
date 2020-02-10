@@ -22,6 +22,9 @@ namespace Seq.App.VictorOps
 
         [JsonProperty("state_message")]
         public string Message { get; set; }
+
+        [JsonProperty("vo_annotate.s.Exception")]
+        public string Exception { get; set; }
     }
 
     public enum AlertType
